@@ -1,0 +1,115 @@
+import java.io.*;
+import java.math.*;
+import java.util.*;
+
+public class Solution {
+
+   
+    public static void main(String[] args) 
+    {Scanner s=new Scanner(System.in);
+    int n=s.nextInt();
+    int k=s.nextInt();
+    int r=s.nextInt();
+    int c=s.nextInt();
+    int rRObstacle = -1;
+        int cRObstacle = -1;
+        int rBRObstacle = -1;
+        int cBRObstacle = -1;
+        int rBObstacle = -1;
+        int cBObstacle = -1;
+        int rBLObstacle = -1;
+        int cBLObstacle = -1;
+        int rLObstacle = -1;
+        int cLObstacle = -1;
+        int rTLObstacle = -1;
+        int cTLObstacle = -1;
+        int rTObstacle = -1;
+        int cTObstacle = -1;
+        int rTRObstacle = -1;
+        int cTRObstacle = -1;
+        
+        //Total squares attacked by the queen
+        int reachableSquares = 0;
+        
+        //Finds the closest object in each direction
+        for(int a0 = 0; a0 < k; a0++){
+            int rObstacle = s.nextInt();
+            int cObstacle = s.nextInt();
+            
+            //Right
+            if((cObstacle < cRObstacle || rRObstacle == -1) && cObstacle > c&& rObstacle == r)
+            {
+                rRObstacle = rObstacle;
+                cRObstacle = cObstacle;
+            }
+            
+            //Bottom Right
+            if(r- rObstacle == cObstacle - c && cObstacle > c&& rObstacle < r
+               && ((rObstacle > rBRObstacle && cObstacle < cBRObstacle) || rBRObstacle == -1))
+            {
+                rBRObstacle = rObstacle;
+                cBRObstacle = cObstacle;
+            }
+            
+            //Bottom    
+            if((rObstacle > rBObstacle || rBObstacle == -1) && rObstacle < r && cObstacle == c)
+            {
+                rBObstacle = rObstacle;
+                cBObstacle = cObstacle;
+            }
+            
+            //Bottom Left
+            if(r - rObstacle == c- cObstacle && cObstacle < c && rObstacle < r
+               && ((rObstacle > rBLObstacle && cObstacle > cBLObstacle) || rBLObstacle == -1))
+            {
+                rBLObstacle = rObstacle;
+                cBLObstacle = cObstacle;
+            }
+            
+            //Left
+            if((cObstacle > cLObstacle || rLObstacle == -1) && cObstacle < c && rObstacle == r)
+            {
+                rLObstacle = rObstacle;
+                cLObstacle = cObstacle;
+            }
+            
+            //Top Left
+            if(c - cObstacle == rObstacle - r && cObstacle < c && rObstacle > r 
+               && ((rObstacle < rTLObstacle && cObstacle > cTLObstacle) || rTLObstacle == -1))
+            {
+                rTLObstacle = rObstacle;
+                cTLObstacle = cObstacle;
+            }
+            
+            //Top
+            if((rObstacle < rTObstacle || rTObstacle == -1) && rObstacle > r && cObstacle == c)
+            {
+                rTObstacle = rObstacle;
+                cTObstacle = cObstacle;
+            }
+            
+            //Top Right
+            if(rObstacle - r== cObstacle - c && cObstacle > c
+               && rObstacle > r && ((rObstacle < rTRObstacle && cObstacle < cTRObstacle) || rTRObstacle == -1))
+            {
+                rTRObstacle = rObstacle;
+                cTRObstacle = cObstacle;
+            }
+                           
+        }
+        
+        //Calculates the distance to the closest obstacle in each direction and adds it to reachableSquares
+        //R B L T
+        reachableSquares += (cRObstacle != -1) ? (cRObstacle - c-1) : n - c;     
+        reachableSquares += (rBObstacle != -1) ? (r- rBObstacle - 1) : r- 1;   
+        reachableSquares += (cLObstacle != -1) ? (c - cLObstacle -1) : c- 1;  
+        reachableSquares += (rTObstacle != -1) ? (rTObstacle - r - 1) : n - r;
+
+        //BR BL TL TR
+        reachableSquares += (cBRObstacle != -1) ? (cBRObstacle - c -1) : Math.min(n - c, r - 1); 
+        reachableSquares += (rBLObstacle != -1) ? (c- cBLObstacle - 1) : Math.min(c- 1, r- 1); 
+        reachableSquares += (cTLObstacle != -1) ? (c - cTLObstacle -1) : Math.min(c - 1, n - r);  
+        reachableSquares += (rTRObstacle != -1) ? (cTRObstacle - c - 1) : Math.min(n - c, n - r); 
+        System.out.println(reachableSquares);
+    }
+}
